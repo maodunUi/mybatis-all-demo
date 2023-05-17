@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--通过properties标签加载外部properties文件-->
+    <properties resource="jdbc.properties"></properties>
+
+    <!--自定义别名-->
+    <typeAliases>
+        <typeAlias type="cn.maodun.singleDemo.pojo.User" alias="user"></typeAlias>
+        <typeAlias type="cn.maodun.singleDemo.pojo.Book" alias="book"></typeAlias>
+    </typeAliases>
+
+    <!--配置分页助手插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"></property>
+        </plugin>
+    </plugins>
+
+    <!--数据源环境-->
+    <environments default="developement">
+        <environment id="developement">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <!--加载映射文件 xml文件-->
+      <mappers>
+          <mapper resource="cn.maodun.single.mapper/UserMapper.xml"></mapper>
+       </mappers>
+
+    <!--加载映射关系 注解方式-->
+    <!--<mappers>
+        &lt;!&ndash;指定接口所在的包&ndash;&gt;
+        <package name="cn.maodun.singleDemo.mapper"></package>
+    </mappers>-->
+
+</configuration>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.maodun.singleDemo.mapper.UserMapper">
+
+    <!--删除操作-->
+    <delete id="delete" parameterType="int">
+        delete from user where uid=#{abc}
+    </delete>
+
+    <!--修改操作-->
+    <update id="update" parameterType="cn.maodun.singleDemo.pojo.User">
+        update user set uname=#{uname},upassword=#{upassword} where uid=#{uid}
+    </update>
+
+    <!--插入操作-->
+    <insert id="save" parameterType="cn.maodun.singleDemo.pojo.User">
+        insert into user(uname,upassword) values(#{uname},#{upassword})
+    </insert>
+
+    <!--查询操作-->
+    <select id="findAll" resultType="user">
+        select * from user
+    </select>
+
+    <!--根据id进行查询-->
+    <select id="findById" resultType="user" parameterType="int">
+        select * from user where uid=#{uid}
+    </select>
+
+
+    <resultMap id="userBookMap" type="user">
+        <!--user的信息-->
+        <id column="uid" property="uid"></id>
+        <result column="uname" property="uname"></result>
+        <result column="upassword" property="upassword"></result>
+        <!--user内部的roleList信息-->
+        <collection property="bookList" ofType="book">
+            <id column="bid" property="bid"></id>
+            <result column="bname" property="bname"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findUserBookAll" resultMap="userBookMap">
+        select * from user u,user_book ub,book b where ub.uid = u.uid and ub.bid = b.bid
+    </select>
+</mapper>
